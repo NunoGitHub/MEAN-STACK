@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { PostsService } from './../posts.service';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-post-create',
@@ -8,18 +10,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class PostCreateComponent {
   enteredContent: any = '';
   enteredTitle: any = '';
-  @Output()
-  postCreated = new EventEmitter();
 
-  onAddPost() {
-    // alert("Post added!")
-    // console.dir(postInput)
-    //this.newPost= 'The user\'s new post';
-    // this.newPost= postInput.value;
-    const post = { title: this.enteredTitle, content: this.enteredContent };
-    this.postCreated.emit(post);
-    this.enteredContent = '';
-    this.enteredTitle = '';
+  constructor(public postsService:PostsService){}
 
+  onAddPost(form: NgForm) {
+
+    if(form.invalid) return;
+
+    this.postsService.addPosts(form.value.title, form.value.content);
   }
 }
