@@ -1,14 +1,19 @@
 <mat-card>
   <div style="  width: 80%; margin: auto;  top: 12px; position: relative;">
     <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input  matInput type="text" [(ngModel)] = "enteredTitle">
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>Leave a post</mat-label>
-      <textarea matInput placeholder="NO CONTENT" rows="6" [value]="newPost" #postInput
-        [(ngModel)]="enteredValue"></textarea>
+
+      <textarea matInput placeholder="No Content" rows="6" [value]="enteredContent" #postInput
+        [(ngModel)]="enteredContent"></textarea>
     </mat-form-field>
 
     <div style="margin-bottom: 24px;">
       <button  mat-raised-button color="accent"
-        (click)="onAddPost(postInput); onAddPostEventBinding()">Save Post</button>
+        (click)="onAddPost()">Save Post</button>
     </div>
   </div>
 </mat-card>
