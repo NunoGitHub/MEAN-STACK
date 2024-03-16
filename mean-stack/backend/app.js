@@ -1,7 +1,13 @@
 //express app
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
+
+//valid express for parsing json data
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //middleware
 /*app.use((req, res, next) =>{
@@ -27,9 +33,18 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PATCH, DELETE, OPTION"
   );
+  next();
 });
 
-app.use("/api/posts", (req, res, next) => {
+app.post("/api/posts", (req, res, next) => {
+  const post = req.body;
+  console.log(post);
+  res.status(201).json({
+    message: "Post added successfully",
+  });
+});
+
+app.get("/api/posts", (req, res, next) => {
   const posts = [
     {
       id: "12334",

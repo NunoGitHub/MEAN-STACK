@@ -11,11 +11,17 @@ export class PostsService {
   constructor(private http: HttpClient) {}
 
   getPosts() {
-    this.http.get<{message: string, post: Post[]}>('http://localhost:3000/api/posts').subscribe((postData)=>{
-      this.posts = postData.post;
-      //next because of the subscription
-      this.postsUpdated.next([...this.posts]);
-    });
+    this.http
+      .get<{ message: string; post: Post[] }>('http://localhost:3000/api/posts')
+      .subscribe((postData) => {
+        if (Array.isArray(postData.post)) {
+          this.posts = postData.post;
+          //next because of the subscription
+          this.postsUpdated.next([...this.posts]);
+        } else {
+          this.postsUpdated.next([]);
+        }
+      });
   }
 
   getPostUpdateListener() {
@@ -24,7 +30,12 @@ export class PostsService {
 
   addPosts(title: string, content: string) {
     const post: Post = { id: null, title: title, content: content };
-    this.posts.push(post);
-    this.postsUpdated.next([...this.posts]);
+    this.http
+      .post<{ message: string }>('http://localhost:3000/api/posts', post)
+      .subscribe((responseData) => {
+        console.log(responseData.message);
+        this.posts.push(post);
+        this.postsUpdated.next([...this.posts]);
+      });
   }
 }
