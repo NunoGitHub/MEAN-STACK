@@ -3,7 +3,7 @@
     <div style="  width: 80%; margin: auto;  top: 12px; position: relative;">
       <mat-form-field>
         <mat-label>Title</mat-label>
-        <input matInput type="text" ngModel name="title" required #title="ngModel">
+        <input matInput type="text" ngModel name="title" required #title="ngModel"  placeholder="Post Title">
         <mat-error *ngIf="title.invalid">Please enter a title</mat-error>
       </mat-form-field>
       <mat-form-field>
