@@ -2,7 +2,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
+const Post = require("./models/post");
+const mongoose = require("mongoose");
+
 const app = express();
+
+mongoose
+  .connect(
+    "mongodb+srv://nunoaapp22:odoFi1jD3Ivxoyyv@cluster0.pcpevb4.mongodb.net/node-angular?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((error) => {
+    console.log("connection failded error = " + error);
+  });
 
 //valid express for parsing json data
 app.use(bodyParser.json());
@@ -35,10 +49,14 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+//odoFi1jD3Ivxoyyv
 app.post("/api/posts", (req, res, next) => {
-  const post = req.body;
-  console.log(post);
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content,
+  });
+  //automatically creates the write query to insert a new entry with that data and autommatycally genarated id in the database
+  post.save();
   res.status(201).json({
     message: "Post added successfully",
   });
