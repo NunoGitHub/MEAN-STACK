@@ -56,10 +56,19 @@ app.post("/api/posts", (req, res, next) => {
     content: req.body.content,
   });
   //automatically creates the write query to insert a new entry with that data and autommatycally genarated id in the database
-  post.save();
-  res.status(201).json({
-    message: "Post added successfully",
+  post.save().then((data) =>{
+    console.log("data sended "+ data);
+    res.status(201).json({
+      message: "Post added successfully",
+      id: data._id,//to update id
+    });
+  }).catch((error)=>{
+    console.log(error);
+    res.status(404).json({
+      message: error,
+    })
   });
+
 });
 
 app.get("/api/posts", (req, res, next) => {
@@ -81,6 +90,8 @@ app.delete("/api/posts/:id", (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then((result) => {
     console.log(result);
     res.status(200).json({ message: "Post deleted!" });
+  }).catch((error)=>{
+    console.log(error);
   });
 });
 
