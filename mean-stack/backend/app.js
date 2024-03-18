@@ -65,7 +65,7 @@ app.post("/api/posts", (req, res, next) => {
 app.get("/api/posts", (req, res, next) => {
   //get all entries
   Post.find()
-    .then(documents => {
+    .then((documents) => {
       console.log(documents);
       res.status(200).json({
         message: "Posts fetched succesfully",
@@ -77,6 +77,12 @@ app.get("/api/posts", (req, res, next) => {
     });
 });
 
-//use app in server
+app.delete("/api/posts/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params.id }).then((result) => {
+    console.log(result);
+    res.status(200).json({ message: "Post deleted!" });
+  });
+});
 
+//use app in server
 module.exports = app;
